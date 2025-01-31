@@ -420,3 +420,74 @@ BEGIN
 END;
 
 
+
+
+
+////////////////////////////////////////////////////Apex Fancy Tree ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+SELECT 
+/* REQUIRED - positive number id of the element (should start with 1 or higher) */
+     AM.MENU_ID AS ID,
+/* REQUIRED - positive number id of the parent (top parent should be 0) */
+    AM.PARENT_MENU_ID AS PARENT_ID,
+/* REQUIRED - title of the item */
+     AM.MENU_DESCRIPTION ||' - ' ||to_number( AM.PAGE_NO ) AS TITLE,/* tooltip for the item */
+/* REQUIRED when use select function - is set to items when selected */
+     AM.MENU_ID AS VALUE,
+/* REQUIRED when use select function - is mapping value for typeSettings in config json */
+      CASE     WHEN level = 1 THEN 1 
+               WHEN level = 2 THEN 2
+               WHEN level = 3 THEN 3 
+               WHEN level = 4 THEN 4 
+               WHEN level = 5 THEN 5
+               WHEN level = 6 THEN 6  END AS TYPE,
+/* Optional - set tooltip for this item */
+     'This is ' || AM.MENU_ID AS TOOLTIP,
+/* Optional - set custom icon for item */
+     CASE WHEN level = 1     THEN      'fa fa-number-1'
+
+               WHEN level = 2 THEN 'fa fa-number-2' 
+
+               WHEN level = 3 THEN 'fa fa-number-3'
+
+               WHEN level = 4 THEN 'fa fa-number-4'
+
+               WHEN level = 5 THEN 'fa fa-number-5'
+
+               WHEN level = 6 THEN 'fa fa-number-6' END AS ICON,
+/* Optional - set which nodes should be selcted on load (0 or null - not selected; 1 - selected)*/
+    CASE 
+        WHEN :P22_ASSIGNING_TYPE = 'Y' AND EXISTS (
+            SELECT 1
+            FROM AB_UM_USER_ACCESS AU
+            WHERE AU.MENU_ID = AM.MENU_ID
+              AND AU.GROUP_ID = :P22_GROUP_ID
+              AND AU.STATUS='Y'
+        ) THEN 1
+        WHEN :P22_ASSIGNING_TYPE = 'N' AND NOT EXISTS (
+            SELECT 1
+            FROM AB_UM_USER_ACCESS AU
+            WHERE AU.MENU_ID = AM.MENU_ID
+              AND AU.GROUP_ID = :P22_GROUP_ID
+              AND AU.STATUS='Y'
+        ) THEN 1
+        WHEN :P22_ASSIGNING_TYPE IS NULL THEN 1
+        WHEN :P22_ASSIGNING_TYPE='U'  THEN NULL
+    END AS SELECTED,
+/* Optional - set if this item is expanded or not (0 or null - not expanded; 1 - expanded)*/
+     NULL EXPANDED,
+/* Optional - enable or disable checkbox for this item (0 or null - no checkbox; 1 - checkbox)*/
+     1 AS CHECKBOX,
+/* Optional - used to set item read only (0 or null - selectable; 1 - unselectable)*/
+     0 AS UNSELECTABLE
+/* activate link on click of the node */
+     --,'https://linktr.ee/ronny.weiss' AS LINK
+from AB_APP_MENU_REGISTRATION AM
+where AM.APPLICATION_ID = :P22_APPLICATION_ID --
+--AND upper(MENU_DESCRIPTION) like case when :P5_SEARCH is not null then upper('%'||:P5_SEARCH||'%') else upper(MENU_DESCRIPTION) end--and  SUBSTR(entry_target,1,10) <> 'javascript'
+and MENU_TYPE= :P22_MENU_LIST
+AND AM.STATUS='Y'
+start with nvl(AM.PARENT_MENU_ID,0) = 0
+connect by prior AM.MENU_ID = AM.PARENT_MENU_ID
+order siblings by AM.MENU_ID--MENU_TYPE,SERIAL_NO
+
+
