@@ -1,0 +1,422 @@
+////////////     For User Allow Button  Code Process Creations  ////////////////////////////////////////////////////////
+
+DECLARE
+   V_level_1 VARCHAR2(1000);
+   V_level_2 VARCHAR2(1000);
+   V_level_3 VARCHAR2(1000);
+   V_level_4 VARCHAR2(1000);
+   V_level_5 VARCHAR2(1000);
+   V_level_6 VARCHAR2(1000);
+   V_found_1 NUMBER;
+   V_found_2 NUMBER;
+   V_found_3 NUMBER;
+   V_found_4 NUMBER;
+   V_found_5 NUMBER;
+   V_found_6 NUMBER;
+BEGIN
+   -- Loop through Level 1 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_1, '[^:]+', 1, LEVEL)) AS V_level_1
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_1, ':') + 1
+   )
+   LOOP
+      IF i.V_level_1 IS NOT NULL THEN
+         SELECT COUNT(*) INTO V_found_1 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_1 
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_1 = 0 THEN
+            -- Insert new record if not found
+            INSERT INTO AB_UM_USER_ACCESS (
+               ACCESS_TYPE,
+               GROUP_ID,
+               MENU_ID,
+               STATUS
+            ) VALUES (
+               :P22_MENU_LIST,
+               :P22_GROUP_ID,
+               i.V_level_1,
+               'Y'
+            );
+         ELSIF V_found_1 = 1 THEN
+            -- Update existing record if found
+            UPDATE AB_UM_USER_ACCESS 
+            SET STATUS = 'Y'
+            WHERE MENU_ID = i.V_level_1 
+              AND STATUS = 'N'
+              AND GROUP_ID = :P22_GROUP_ID;
+         END IF;
+      END IF;
+   END LOOP;
+
+   -- Loop through Level 2 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_2, '[^:]+', 1, LEVEL)) AS V_level_2
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_2, ':') + 1
+   )
+   LOOP
+      IF i.V_level_2 IS NOT NULL THEN
+         SELECT COUNT(*) INTO V_found_2 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_2 
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_2 = 0 THEN
+            -- Insert new record if not found
+            INSERT INTO AB_UM_USER_ACCESS (
+               ACCESS_TYPE,
+               GROUP_ID,
+               MENU_ID,
+               STATUS
+            ) VALUES (
+               :P22_MENU_LIST,
+               :P22_GROUP_ID,
+               i.V_level_2,
+               'Y'
+            );
+         ELSIF V_found_2 = 1 THEN
+            -- Update existing record if found
+            UPDATE AB_UM_USER_ACCESS 
+            SET STATUS = 'Y'
+            WHERE MENU_ID = i.V_level_2 
+              AND STATUS = 'N'
+              AND GROUP_ID = :P22_GROUP_ID;
+         END IF;
+      END IF;
+   END LOOP;
+
+   -- Loop through Level 3 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_3, '[^:]+', 1, LEVEL)) AS V_level_3
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_3, ':') + 1
+   )
+   LOOP
+      IF i.V_level_3 IS NOT NULL THEN
+         SELECT COUNT(*) INTO V_found_3 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_3 
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_3 = 0 THEN
+            -- Insert new record if not found
+            INSERT INTO AB_UM_USER_ACCESS (
+               ACCESS_TYPE,
+               GROUP_ID,
+               MENU_ID,
+               STATUS
+            ) VALUES (
+               :P22_MENU_LIST,
+               :P22_GROUP_ID,
+               i.V_level_3,
+               'Y'
+            );
+         ELSIF V_found_3 = 1 THEN
+            -- Update existing record if found
+            UPDATE AB_UM_USER_ACCESS 
+            SET STATUS = 'Y'
+            WHERE MENU_ID = i.V_level_3 
+              AND STATUS = 'N'
+              AND GROUP_ID = :P22_GROUP_ID;
+         END IF;
+      END IF;
+   END LOOP;
+
+   -- Loop through Level 4 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_4, '[^:]+', 1, LEVEL)) AS V_level_4
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_4, ':') + 1
+   )
+   LOOP
+      IF i.V_level_4 IS NOT NULL THEN
+         SELECT COUNT(*) INTO V_found_4 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_4 
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_4 = 0 THEN
+            -- Insert new record if not found
+            INSERT INTO AB_UM_USER_ACCESS (
+               ACCESS_TYPE,
+               GROUP_ID,
+               MENU_ID,
+               STATUS
+            ) VALUES (
+               :P22_MENU_LIST,
+               :P22_GROUP_ID,
+               i.V_level_4,
+               'Y'
+            );
+         ELSIF V_found_4 = 1 THEN
+            -- Update existing record if found
+            UPDATE AB_UM_USER_ACCESS 
+            SET STATUS = 'Y'
+            WHERE MENU_ID = i.V_level_4 
+              AND STATUS = 'N'
+              AND GROUP_ID = :P22_GROUP_ID;
+         END IF;
+      END IF;
+   END LOOP;
+
+   -- Loop through Level 5 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_5, '[^:]+', 1, LEVEL)) AS V_level_5
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_5, ':') + 1
+   )
+   LOOP
+      IF i.V_level_5 IS NOT NULL THEN
+         SELECT COUNT(*) INTO V_found_5 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_5 
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_5 = 0 THEN
+            -- Insert new record if not found
+            INSERT INTO AB_UM_USER_ACCESS (
+               ACCESS_TYPE,
+               GROUP_ID,
+               MENU_ID,
+               STATUS
+            ) VALUES (
+               :P22_MENU_LIST,
+               :P22_GROUP_ID,
+               i.V_level_5,
+               'Y'
+            );
+         ELSIF V_found_5 = 1 THEN
+            -- Update existing record if found
+            UPDATE AB_UM_USER_ACCESS 
+            SET STATUS = 'Y'
+            WHERE MENU_ID = i.V_level_5 
+              AND STATUS = 'N'
+              AND GROUP_ID = :P22_GROUP_ID;
+         END IF;
+      END IF;
+   END LOOP;
+
+   -- Loop through Level 6 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_6, '[^:]+', 1, LEVEL)) AS V_level_6
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_6, ':') + 1
+   )
+   LOOP
+      IF i.V_level_6 IS NOT NULL THEN
+         SELECT COUNT(*) INTO V_found_6 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_6 
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_6 = 0 THEN
+            -- Insert new record if not found
+            INSERT INTO AB_UM_USER_ACCESS (
+               ACCESS_TYPE,
+               GROUP_ID,
+               MENU_ID,
+               STATUS
+            ) VALUES (
+               :P22_MENU_LIST,
+               :P22_GROUP_ID,
+               i.V_level_6,
+               'Y'
+            );
+         ELSIF V_found_6 = 1 THEN
+            -- Update existing record if found
+            UPDATE AB_UM_USER_ACCESS 
+            SET STATUS = 'Y'
+            WHERE MENU_ID = i.V_level_6 
+              AND STATUS = 'N'
+              AND GROUP_ID = :P22_GROUP_ID;
+         END IF;
+      END IF;
+   END LOOP;
+
+END;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////FOR DISS ALLOW BUTTON PROCESS CODE ///////////////////////////////////////////////////////////////////////////////////////////////////////
+DECLARE
+   V_level_1 VARCHAR2(1000);
+   V_level_2 VARCHAR2(1000);
+   V_level_3 VARCHAR2(1000);
+   V_level_4 VARCHAR2(1000);
+   V_level_5 VARCHAR2(1000);
+   V_level_6 VARCHAR2(1000);
+   V_found_1 NUMBER;
+   V_found_2 NUMBER;
+   V_found_3 NUMBER;
+   V_found_4 NUMBER;
+   V_found_5 NUMBER;
+   V_found_6 NUMBER;
+BEGIN
+   -- Loop through Level 1 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_1, '[^:]+', 1, LEVEL)) AS V_level_1
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_1, ':') + 1
+   )
+   LOOP
+      IF i.V_level_1 >= 0 THEN
+         SELECT COUNT(*) INTO V_found_1 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_1 
+           AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_1  =1 THEN
+            UPDATE AB_UM_USER_ACCESS 
+               SET STATUS='N'
+        WHERE MENU_ID = i.V_level_1 
+           AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+            COMMIT;
+         END IF;
+      END IF;
+   END LOOP;
+
+   -- Loop through Level 2 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_2, '[^:]+', 1, LEVEL)) AS V_level_2
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_2, ':') + 1
+   )
+   LOOP
+      IF i.V_level_2 >= 0 THEN
+         SELECT COUNT(*) INTO V_found_2 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_2 
+         AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_2 = 1 THEN
+               UPDATE AB_UM_USER_ACCESS 
+               SET STATUS='N'
+        WHERE MENU_ID = i.V_level_2 
+           AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+            COMMIT;
+         END IF;
+      END IF;
+   END LOOP;
+
+   -- Loop through Level 3 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_3, '[^:]+', 1, LEVEL)) AS V_level_3
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_3, ':') + 1
+   )
+   LOOP
+      IF i.V_level_3 >= 0 THEN
+         SELECT COUNT(*) INTO V_found_3 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_3 
+         AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_3 = 1 THEN
+             UPDATE AB_UM_USER_ACCESS 
+               SET STATUS='N'
+        WHERE MENU_ID = i.V_level_3 
+           AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+            COMMIT;
+         END IF;
+         END IF;
+   END LOOP;
+
+   -- Loop through Level 4 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_4, '[^:]+', 1, LEVEL)) AS V_level_4
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_4, ':') + 1
+   )
+   LOOP
+      IF i.V_level_4 >= 0 THEN
+         SELECT COUNT(*) INTO V_found_4 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_4 
+         AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_4 = 1 THEN
+               UPDATE AB_UM_USER_ACCESS 
+               SET STATUS='N'
+        WHERE MENU_ID = i.V_level_4 
+           AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+            COMMIT;
+         END IF;
+      END IF;
+   END LOOP;
+
+   -- Loop through Level 5 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_5, '[^:]+', 1, LEVEL)) AS V_level_5
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_5, ':') + 1
+   )
+   LOOP
+      IF i.V_level_5 >= 0 THEN
+         SELECT COUNT(*) INTO V_found_5 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_5 
+         AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_5 = 1 THEN
+               UPDATE AB_UM_USER_ACCESS 
+               SET STATUS='N'
+        WHERE MENU_ID = i.V_level_5 
+           AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+            COMMIT;
+         END IF;
+      END IF;
+   END LOOP;
+
+   -- Loop through Level 6 segments
+   FOR i IN (
+      SELECT 
+         TRIM(REGEXP_SUBSTR(:P22_LEVEL_6, '[^:]+', 1, LEVEL)) AS V_level_6
+      FROM dual
+      CONNECT BY LEVEL <= REGEXP_COUNT(:P22_LEVEL_6, ':') + 1
+   )
+   LOOP
+      IF i.V_level_6 >= 0 THEN
+         SELECT COUNT(*) INTO V_found_6 
+         FROM AB_UM_USER_ACCESS
+         WHERE MENU_ID = i.V_level_6 
+         AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+
+         IF V_found_6 = 1 THEN
+                UPDATE AB_UM_USER_ACCESS 
+               SET STATUS='N'
+        WHERE MENU_ID = i.V_level_6 
+           AND STATUS='Y'
+           AND GROUP_ID = :P22_GROUP_ID;
+            COMMIT;
+         END IF;
+      END IF;
+   END LOOP;
+
+END;
+
+
